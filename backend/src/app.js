@@ -5,9 +5,12 @@ const app = express();
 
 const pool = require("./config/db");
 
+const authRoutes = require("./routes/authRoutes");
+
 //Middleware
 app.use(cors());
 app.use(express.json());
+app.use("/api/auth", authRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
