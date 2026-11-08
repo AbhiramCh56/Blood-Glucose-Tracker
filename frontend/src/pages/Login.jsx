@@ -1,18 +1,41 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HeartPulse, Mail, Lock, Eye, EyeOff } from "lucide-react";
+
+import { loginUser } from "../services/api";
 
 function Login() {
   // Store the values entered by the user
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   // Control password visibility
   const [showPassword, setShowPassword] = useState(false);
 
   // Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await loginUser({ email, password });
+      //Store the authentication token
+      localStorage.setItem("token", response.token);
+      //Store user information
+      localStorage.setItem("user", JSON.stringify(response.user));
+      //redirect to dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
 
     console.log("Email:", email);
     console.log("Password entered:", Boolean(password));
@@ -33,7 +56,7 @@ function Login() {
           <h2>Welcome back!</h2>
           <p>Sign in to continue tracking your glucose.</p>
         </div>
-
+        {error && <p className="form-error">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email address</label>
@@ -78,8 +101,8 @@ function Login() {
             </div>
           </div>
 
-          <button type="submit" className="auth-button">
-            Sign In
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
