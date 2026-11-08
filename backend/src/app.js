@@ -6,11 +6,13 @@ const app = express();
 const pool = require("./config/db");
 
 const authRoutes = require("./routes/authRoutes");
+const readingRoutes = require("./routes/readingRoutes");
 
 //Middleware
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/readings", readingRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
