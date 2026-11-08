@@ -1,4 +1,5 @@
 const pool = require("../config/db");
+const { all } = require("../routes/readingRoutes");
 
 const addReading = async (req, res) => {
   try {
@@ -133,7 +134,169 @@ const getReadings = async (req, res) => {
   }
 };
 
+const updateReading = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { readingDate, slot, glucoseValue } = req.body || {};
+
+    if (!/^[1-9]\d*$/.test(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid reading ID.",
+      });
+    }
+
+    if (
+      !readingDate ||
+      !slot ||
+      glucoseValue === undefined ||
+      glucoseValue === null
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Date,slot,glucose values are required.",
+      });
+    }
+
+    if (
+      typeof readingDate !== "string" ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(readingDate)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Date must be in YYYY-MM-DD format.",
+      });
+    }
+
+    const parsedDate = new Date(`${readingDate}T00:00:00.000Z`);
+
+    if (
+      Number.isNaN(parsedDate.getTime()) ||
+      parsedDate.toISOString().slice(0, 10) !== readingDate
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid date.",
+      });
+    }
+
+    const allowedSlots = [
+      "morning_fasting",
+      "after_breakfast",
+      "after_lunch",
+      "after_dinner",
+    ];
+
+    if (!allowedSlots.includes(slot)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid reading slot",
+      });
+    }
+
+    if (
+      !Number.isInteger(glucoseValue) ||
+      glucoseValue < 40 ||
+      glucoseValue > 600
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Glucose value must be an integer between 40 and 600.",
+      });
+    }
+
+    // Reject future dates
+    const dateCheck = await pool.query(
+      "SELECT $1::date > CURRENT_DATE AS is_future",
+      [readingDate],
+    );
+
+    if (dateCheck.rows[0].is_future) {
+      return res.status(400).json({
+        success: false,
+        message: "Future dates are not allowed.",
+      });
+    }
+
+    const result = await pool.query(
+      `UPDATE glucose_readings
+             SET reading_date = $1,
+                 slot = $2,
+                 glucose_value = $3,
+                 updated_at = CURRENT_TIMESTAMP
+             WHERE id = $4 AND user_id = $5
+             RETURNING id, reading_date, slot, glucose_value, updated_at`,
+      [readingDate, slot, glucoseValue, id, req.user.id],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Reading not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Glucose reading updated succesfully.",
+      reading: result.rows[0],
+    });
+  } catch (error) {
+    console.error("Update reading error:", error.message);
+
+    if (error.code === "23505") {
+      return res.status(409).json({
+        success: false,
+        message: "A reading already exists for this slot and date.",
+      });
+    }
+  }
+};
+
+const deleteReading = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate reading ID
+    if (!/^[1-9]\d*$/.test(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid reading ID.",
+      });
+    }
+
+    const result = await pool.query(
+      `DELETE FROM glucose_readings
+             WHERE id = $1 AND user_id = $2
+             RETURNING id`,
+      [id, req.user.id],
+    );
+
+    // Check whether a reading was deleted
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Reading not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Glucose reading deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Delete reading error:", error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
+
 module.exports = {
   addReading,
   getReadings,
+  updateReading,
+  deleteReading,
 };
