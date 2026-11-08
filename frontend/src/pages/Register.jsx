@@ -2,24 +2,43 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { HeartPulse, User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
+import { registerUser } from "../services/api";
+
 function Register() {
   // Store form values
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   // Password visibility
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setError("");
+    setSuccess("");
 
     if (password !== confirmPassword) {
       alert("Passwords do not match.");
       return;
+    }
+
+    try {
+      const response = await registerUser({ name, email, password });
+      setSuccess(response.message);
+
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      setError(error.message);
     }
 
     console.log("Registration details:", {
@@ -44,7 +63,9 @@ function Register() {
           <h2>Create your account</h2>
           <p>Start your glucose tracking journey.</p>
         </div>
+        {error && <p className="form-error">{error}</p>}
 
+        {success && <p className="form-success">{success}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Full name</label>
