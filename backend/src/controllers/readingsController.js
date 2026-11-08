@@ -109,6 +109,31 @@ const addReading = async (req, res) => {
   }
 };
 
+const getReadings = async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT id, reading_date, slot, glucose_value, created_at
+             FROM glucose_readings
+             WHERE user_id = $1
+             ORDER BY reading_date DESC, created_at DESC`,
+      [req.user.id],
+    );
+
+    return res.status(200).json({
+      success: true,
+      count: result.rows.length,
+      readings: result.rows,
+    });
+  } catch (error) {
+    console.error("Get readings error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   addReading,
+  getReadings,
 };
