@@ -7,12 +7,14 @@ const pool = require("./config/db");
 
 const authRoutes = require("./routes/authRoutes");
 const readingRoutes = require("./routes/readingRoutes");
+const reportsRoutes = require("./routes/reportsRoutes");
 
 //Middleware
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/readings", readingRoutes);
+app.use("/api/reports", reportsRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
