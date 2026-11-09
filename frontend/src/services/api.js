@@ -47,3 +47,14 @@ export const loginUser = async (credentials) => {
     body: JSON.stringify(credentials),
   });
 };
+
+// Retrieve glucose readings for the logged-in user
+export const getReadings = async () => {
+  return apiRequest(
+    "/api/readings",
+    {
+      method: "GET",
+    },
+    true,
+  );
+};
