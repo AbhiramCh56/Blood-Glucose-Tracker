@@ -1,36 +1,49 @@
 const API_BASE_URL = "http://localhost:5000";
 
-export const registerUser = async (userData) => {
-  const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
-    method: "POST",
+// Reusable function for making API requests
+const apiRequest = async (endpoint, options = {}, requiresAuth = false) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...options,
     headers: {
       "Content-Type": "application/json",
+      ...options.headers,
+      ...(token && {
+        Authorization: `Bearer ${token}`,
+      }),
     },
-    body: JSON.stringify(userData),
   });
 
   const data = await response.json();
 
+  // Handle expired or invalid authentication
+  if (response.status === 401 && requiresAuth) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    window.location.assign("/login");
+  }
+
   if (!response.ok) {
-    throw new Error(data.message || "Registration failed.");
+    throw new Error(data.message || "Something went wrong.");
   }
 
   return data;
 };
-export const loginUser = async (credentials) => {
-  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+
+// Register a new user
+export const registerUser = async (userData) => {
+  return apiRequest("/api/auth/register", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    body: JSON.stringify(userData),
+  });
+};
+
+// Log in an existing user
+export const loginUser = async (credentials) => {
+  return apiRequest("/api/auth/login", {
+    method: "POST",
     body: JSON.stringify(credentials),
   });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Login Failed");
-  }
-
-  return data;
 };
