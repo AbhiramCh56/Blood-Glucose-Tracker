@@ -90,3 +90,19 @@ export const deleteReading = async (id) => {
     true,
   );
 };
+
+export const getDailyReport = async (date) => {
+  return apiRequest(
+    `/api/reports/daily?date=${encodeURIComponent(date)}`,
+    { method: "GET" },
+    true,
+  );
+};
+
+export const getMonthToDateReport = async () => {
+  return apiRequest("/api/reports/month-to-date", { method: "GET" }, true);
+};
+
+export const getPreviousMonthReport = async () => {
+  return apiRequest("/api/reports/previous-month", { method: "GET" }, true);
+};

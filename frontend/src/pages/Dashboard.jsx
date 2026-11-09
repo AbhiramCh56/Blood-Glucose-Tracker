@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getReadings, deleteReading } from "../services/api";
 import AddReading from "../components/AddReading";
 import EditReading from "../components/EditReading";
+import DailyReport from "../components/DailyReport";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -75,6 +76,7 @@ function Dashboard() {
           }}
         />
       )}
+      <DailyReport />
       <h2>Your glucose Readings</h2>
       {loading && <p>Loading readings...</p>}
 
