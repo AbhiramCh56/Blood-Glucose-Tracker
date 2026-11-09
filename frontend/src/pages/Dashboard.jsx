@@ -4,6 +4,7 @@ import { getReadings, deleteReading } from "../services/api";
 import AddReading from "../components/AddReading";
 import EditReading from "../components/EditReading";
 import DailyReport from "../components/DailyReport";
+import MonthToDateReport from "../components/MonthToDateReport";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -77,6 +78,7 @@ function Dashboard() {
         />
       )}
       <DailyReport />
+      <MonthToDateReport />
       <h2>Your glucose Readings</h2>
       {loading && <p>Loading readings...</p>}
 
