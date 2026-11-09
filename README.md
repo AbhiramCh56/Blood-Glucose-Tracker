@@ -454,6 +454,19 @@ All reading and report routes require an `Authorization: Bearer <token>` header.
 
 ---
 
+## Notes and future improvements
+
+- Add automated backend and frontend tests, plus a CI workflow to run linting and tests on every pull request.
+- Replace the manual database setup with versioned migrations so schema changes are repeatable.
+- Move JWTs out of `localStorage` into secure, HTTP-only cookies and add refresh-token handling.
+- Add rate limiting, email verification, and password-reset support.
+- Restrict CORS to the configured frontend origin instead of allowing all origins.
+- Add centralized request validation and shared error handling to reduce duplication in controllers.
+- Add pagination and filtering for readings, plus CSV/PDF export for reports.
+- Improve accessibility, loading states, and mobile responsiveness across the dashboard.
+
+---
+
 ## License
 
 This project is licensed under the ISC License.
