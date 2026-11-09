@@ -58,3 +58,14 @@ export const getReadings = async () => {
     true,
   );
 };
+
+export const addReadings = async (readingData) => {
+  return apiRequest(
+    "/api/readings",
+    {
+      method: "POST",
+      body: JSON.stringify(readingData),
+    },
+    true,
+  );
+};

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getReadings } from "../services/api";
+import AddReading from "../components/AddReading";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function Dashboard() {
       <h1>Dashboard</h1>
       <p>Your glucose tracking overview.</p>
       <button onClick={handleLogout}>Logout</button>
+      <AddReading onReadingAdded={fetchReadings} />
       <h2>Your glucose Readings</h2>
       {loading && <p>Loading readings...</p>}
 
