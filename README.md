@@ -31,6 +31,7 @@ Sweety-Blood-Glucose-Tracker/
 │   │   ├── controllers/               # Auth, readings, and report logic
 │   │   ├── middleware/authMiddleware.js
 │   │   ├── routes/                    # API routes
+│   │   ├── scripts/seed.js            # Demo user and sample readings seed script
 │   │   ├── app.js                     # Express app and route registration
 │   │   └── server.js                  # Server entry point
 │   ├── .env                           # Local environment variables (not committed)
@@ -184,6 +185,33 @@ A successful response looks like:
   "databaseTime": "2026-11-09T10:00:00.000Z"
 }
 ```
+
+### 2.4 Seed demo data (optional)
+
+A seed script populates the database with a demo account and sample glucose readings. Run it after creating the tables:
+
+```bash
+cd backend
+npm run seed
+```
+
+By default, this **replaces** the demo user's readings with 30 days of sample data. The default login is:
+
+| Field    | Value             |
+| -------- | ----------------- |
+| Email    | `demo@sweety.app` |
+| Password | `Demo1234`        |
+
+You can customize the seed with environment variables in `backend/.env`:
+
+```env
+DEMO_USER_NAME=Demo User
+DEMO_USER_EMAIL=demo@sweety.app
+DEMO_USER_PASSWORD=Demo1234
+SEED_DAYS=30
+```
+
+The script is idempotent: rerunning it updates the demo user and recreates their sample readings without creating duplicates. It only affects the demo user's data.
 
 ---
 
