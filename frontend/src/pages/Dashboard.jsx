@@ -5,6 +5,7 @@ import AddReading from "../components/AddReading";
 import EditReading from "../components/EditReading";
 import DailyReport from "../components/DailyReport";
 import MonthToDateReport from "../components/MonthToDateReport";
+import PreviousMonthReport from "../components/PreviousMonthReport";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -79,6 +80,7 @@ function Dashboard() {
       )}
       <DailyReport />
       <MonthToDateReport />
+      <PreviousMonthReport />
       <h2>Your glucose Readings</h2>
       {loading && <p>Loading readings...</p>}
 
