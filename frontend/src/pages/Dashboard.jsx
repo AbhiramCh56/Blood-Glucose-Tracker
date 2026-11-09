@@ -62,48 +62,112 @@ function Dashboard() {
       setError(error.message);
     }
   };
+
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Your glucose tracking overview.</p>
-      <button onClick={handleLogout}>Logout</button>
-      <AddReading onReadingAdded={fetchReadings} />
-      {selectedReading && (
-        <EditReading
-          key={selectedReading.id}
-          reading={selectedReading}
-          onReadingUpdated={() => {
-            setSelectedReading(null);
-            fetchReadings();
-          }}
-        />
-      )}
-      <DailyReport />
-      <MonthToDateReport />
-      <PreviousMonthReport />
-      <h2>Your glucose Readings</h2>
-      {loading && <p>Loading readings...</p>}
-
-      {error && <p className="form-error">{error}</p>}
-
-      {!loading && !error && readings.length === 0 && (
-        <p>No glucose readings found. Start by adding your first reading!</p>
-      )}
-
-      {!loading && readings.length > 0 && (
+    <div className="dashboard-page">
+      {/* Dashboard Header */}
+      <header className="dashboard-header">
         <div>
-          {readings.map((reading) => (
-            <div key={reading.id}>
-              <p>Date: {reading.reading_date}</p>
-              <p>Slot: {reading.slot}</p>
-              <p>Glucose: {reading.glucose_value} mg/dL</p>
-
-              <button onClick={() => setSelectedReading(reading)}>Edit</button>
-              <button onClick={() => handleDelete(reading.id)}>Delete</button>
-            </div>
-          ))}
+          <h1>Sweety</h1>
+          <p>Your Blood Glucose Tracker</p>
         </div>
-      )}
+
+        <button onClick={handleLogout}>Logout</button>
+      </header>
+
+      <main className="dashboard-content">
+        {/* Welcome Section */}
+        <section className="dashboard-welcome">
+          <h2>Your Dashboard</h2>
+          <p>Track your glucose readings and monitor your progress.</p>
+        </section>
+
+        {/* Add Reading Section */}
+        <section className="dashboard-section">
+          <h2>Add a Glucose Reading</h2>
+
+          <AddReading onReadingAdded={fetchReadings} />
+        </section>
+
+        {/* Edit Reading Section */}
+        {selectedReading && (
+          <section className="dashboard-section">
+            <h2>Edit Glucose Reading</h2>
+
+            <EditReading
+              key={selectedReading.id}
+              reading={selectedReading}
+              onReadingUpdated={() => {
+                setSelectedReading(null);
+                fetchReadings();
+              }}
+            />
+          </section>
+        )}
+
+        {/* Reports Section */}
+        <section className="dashboard-section">
+          <h2>Glucose Reports</h2>
+
+          <div className="dashboard-report">
+            <DailyReport />
+          </div>
+
+          <div className="dashboard-report">
+            <MonthToDateReport />
+          </div>
+
+          <div className="dashboard-report">
+            <PreviousMonthReport />
+          </div>
+        </section>
+
+        {/* Reading History Section */}
+        <section className="dashboard-section">
+          <h2>Your Glucose Readings</h2>
+
+          {loading && <p>Loading readings...</p>}
+
+          {error && <p className="form-error">{error}</p>}
+
+          {!loading && !error && readings.length === 0 && (
+            <p>
+              No glucose readings found. Start by adding your first reading!
+            </p>
+          )}
+
+          {!loading && readings.length > 0 && (
+            <div className="reading-list">
+              {readings.map((reading) => (
+                <div className="reading-card" key={reading.id}>
+                  <div className="reading-info">
+                    <p className="reading-date">{reading.reading_date}</p>
+
+                    <p className="reading-slot">
+                      {reading.slot.replaceAll("_", " ")}
+                    </p>
+                  </div>
+
+                  <div className="reading-value">
+                    <span>{reading.glucose_value}</span>
+                    <small>mg/dL</small>
+                  </div>
+
+                  <div className="reading-actions">
+                    <button onClick={() => setSelectedReading(reading)}>
+                      Edit
+                    </button>
+
+                    <button onClick={() => handleDelete(reading.id)}>
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      </main>
     </div>
   );
 }

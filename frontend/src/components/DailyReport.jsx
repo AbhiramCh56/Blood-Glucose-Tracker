@@ -30,9 +30,9 @@ function DailyReport() {
 
   return (
     <div>
-      <h2>Daily Glucose Report</h2>
+      <h3 className="report-title">Daily Report</h3>
 
-      <div>
+      <div className="report-summary">
         <label htmlFor="reportDate">Select Date</label>
 
         <input
@@ -52,7 +52,7 @@ function DailyReport() {
       {error && <p className="form-error">{error}</p>}
 
       {report && (
-        <div>
+        <div className="report-summary">
           <h3>Report Summary</h3>
 
           <p>Total Readings: {report.summary.totalReadings}</p>
@@ -67,7 +67,7 @@ function DailyReport() {
       )}
 
       {report && report.readings.length > 0 && (
-        <div>
+        <div className="report-summary">
           <h3>Individual Readings</h3>
 
           {report.readings.map((reading) => (

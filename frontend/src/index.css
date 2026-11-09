@@ -178,3 +178,297 @@ input {
   font-size: 14px;
   margin-bottom: 18px;
 }
+
+/* Dashboard Layout */
+
+.dashboard-page {
+  min-height: 100vh;
+  background: #f4f8f5;
+  color: #24352b;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 8%;
+  background: #ffffff;
+  border-bottom: 1px solid #e2ebe4;
+}
+
+.dashboard-header h1 {
+  color: #23834d;
+  margin-bottom: 4px;
+}
+
+.dashboard-header p {
+  color: #718078;
+}
+
+.dashboard-header button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #23834d;
+  color: white;
+  cursor: pointer;
+}
+
+.dashboard-content {
+  width: min(1100px, 90%);
+  margin: 35px auto;
+}
+
+.dashboard-welcome {
+  margin-bottom: 28px;
+}
+
+.dashboard-welcome h2 {
+  margin-bottom: 8px;
+}
+
+.dashboard-section {
+  background: #ffffff;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #e2ebe4;
+  border-radius: 14px;
+}
+
+.dashboard-section > h2 {
+  margin-bottom: 20px;
+}
+
+.dashboard-report {
+  padding: 18px 0;
+  border-bottom: 1px solid #e8eee9;
+}
+
+.dashboard-report:last-child {
+  border-bottom: none;
+}
+
+.reading-list {
+  display: grid;
+  gap: 14px;
+}
+
+.reading-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid #e2ebe4;
+  border-radius: 10px;
+  background: #fbfdfb;
+}
+
+.reading-card p {
+  margin-bottom: 6px;
+}
+
+.reading-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.reading-actions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 7px;
+  background: #23834d;
+  color: white;
+  cursor: pointer;
+}
+
+.reading-actions button:last-child {
+  background: #d9534f;
+}
+
+@media (max-width: 600px) {
+  .dashboard-header {
+    padding: 18px 5%;
+  }
+
+  .dashboard-content {
+    width: 92%;
+    margin: 22px auto;
+  }
+
+  .dashboard-section {
+    padding: 18px;
+  }
+
+  .reading-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* Reading Cards */
+
+.reading-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #e2ebe4;
+  border-radius: 12px;
+  background: #fbfdfb;
+  transition: box-shadow 0.2s ease;
+}
+
+.reading-card:hover {
+  box-shadow: 0 4px 12px rgba(35, 131, 77, 0.08);
+}
+
+.reading-date {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.reading-slot {
+  color: #718078;
+  text-transform: capitalize;
+}
+
+.reading-value {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  color: #23834d;
+}
+
+.reading-value span {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.reading-value small {
+  color: #718078;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .reading-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reading-actions {
+    width: 100%;
+  }
+}
+
+/* Report Components */
+
+.report-title {
+  color: #23834d;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.dashboard-report button {
+  padding: 10px 18px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #23834d;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dashboard-report button:hover {
+  background: #19683b;
+}
+
+.dashboard-report button:disabled {
+  background: #9ab9a4;
+  cursor: not-allowed;
+}
+
+.dashboard-report h3 {
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+.dashboard-report p {
+  margin-bottom: 8px;
+  color: #526258;
+}
+
+.dashboard-report p strong {
+  color: #24352b;
+}
+
+.report-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.report-summary p {
+  padding: 14px;
+  margin: 0;
+  border-radius: 9px;
+  background: #f2f8f3;
+}
+
+@media (max-width: 500px) {
+  .report-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dashboard Form Styling */
+
+.dashboard-section input,
+.dashboard-section select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid #d5e2d8;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #24352b;
+  font-size: 14px;
+}
+
+.dashboard-section input:focus,
+.dashboard-section select:focus {
+  outline: none;
+  border-color: #23834d;
+  box-shadow: 0 0 0 3px rgba(35, 131, 77, 0.1);
+}
+
+.dashboard-section label {
+  display: block;
+  margin-top: 14px;
+  font-weight: 600;
+  color: #405348;
+}
+
+.dashboard-section form button {
+  padding: 11px 20px;
+  margin-top: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #23834d;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dashboard-section form button:hover {
+  background: #19683b;
+}
+
+.dashboard-section form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

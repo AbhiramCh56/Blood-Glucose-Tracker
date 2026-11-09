@@ -24,7 +24,7 @@ function PreviousMonthReport() {
 
   return (
     <div>
-      <h2>Previous Month Report</h2>
+      <h3 className="report-title">Previous Month Report</h3>
 
       <button type="button" onClick={fetchReport} disabled={loading}>
         {loading ? "Generating..." : "Generate Report"}
@@ -35,7 +35,7 @@ function PreviousMonthReport() {
       {error && <p className="form-error">{error}</p>}
 
       {report && (
-        <div>
+        <div className="report-summary">
           <h3>Reporting Period</h3>
           <p>From: {report.period.startDate}</p>
           <p>To: {report.period.endDate}</p>
@@ -43,7 +43,7 @@ function PreviousMonthReport() {
       )}
 
       {report && (
-        <div>
+        <div className="report-summary">
           <h3>Report Summary</h3>
 
           <p>Total Readings: {report.summary.totalReadings}</p>
@@ -61,7 +61,7 @@ function PreviousMonthReport() {
       )}
 
       {report && report.readings.length > 0 && (
-        <div>
+        <div className="report-summary">
           <h3>Individual Readings</h3>
 
           {report.readings.map((reading) => (
