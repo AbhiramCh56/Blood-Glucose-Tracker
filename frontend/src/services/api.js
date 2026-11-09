@@ -69,3 +69,24 @@ export const addReadings = async (readingData) => {
     true,
   );
 };
+
+export const updateReading = async (id, readingData) => {
+  return apiRequest(
+    `/api/readings/${id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(readingData),
+    },
+    true,
+  );
+};
+
+export const deleteReading = async (id) => {
+  return apiRequest(
+    `/api/readings/${id}`,
+    {
+      method: "DELETE",
+    },
+    true,
+  );
+};

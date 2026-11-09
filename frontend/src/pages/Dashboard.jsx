@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getReadings } from "../services/api";
+import { getReadings, deleteReading } from "../services/api";
 import AddReading from "../components/AddReading";
+import EditReading from "../components/EditReading";
 
 function Dashboard() {
   const navigate = useNavigate();
   const [readings, setReadings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedReading, setSelectedReading] = useState(null);
 
   const fetchReadings = async () => {
     try {
@@ -39,12 +41,40 @@ function Dashboard() {
 
     navigate("/login", { replace: true });
   };
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this glucose reading?",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await deleteReading(id);
+
+      setSelectedReading(null);
+      fetchReadings();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
   return (
     <div>
       <h1>Dashboard</h1>
       <p>Your glucose tracking overview.</p>
       <button onClick={handleLogout}>Logout</button>
       <AddReading onReadingAdded={fetchReadings} />
+      {selectedReading && (
+        <EditReading
+          key={selectedReading.id}
+          reading={selectedReading}
+          onReadingUpdated={() => {
+            setSelectedReading(null);
+            fetchReadings();
+          }}
+        />
+      )}
       <h2>Your glucose Readings</h2>
       {loading && <p>Loading readings...</p>}
 
@@ -61,6 +91,9 @@ function Dashboard() {
               <p>Date: {reading.reading_date}</p>
               <p>Slot: {reading.slot}</p>
               <p>Glucose: {reading.glucose_value} mg/dL</p>
+
+              <button onClick={() => setSelectedReading(reading)}>Edit</button>
+              <button onClick={() => handleDelete(reading.id)}>Delete</button>
             </div>
           ))}
         </div>
