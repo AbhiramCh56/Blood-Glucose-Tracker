@@ -472,3 +472,155 @@ input {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Home / Hero */
+
+.home-page {
+  min-height: 100vh;
+  background: #f4f8f5;
+  color: #24352b;
+}
+
+.home-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-link {
+  padding: 10px 20px;
+  border: 1px solid #cfe2d5;
+  border-radius: 8px;
+  color: #23834d;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.home-link:hover {
+  background: #f2f8f3;
+}
+
+.home-link-primary {
+  background: #23834d;
+  border-color: #23834d;
+  color: #ffffff;
+}
+
+.home-link-primary:hover {
+  background: #19683b;
+}
+
+.home-content {
+  width: min(1000px, 90%);
+  margin: 0 auto;
+  padding: 70px 0 80px;
+}
+
+.home-hero {
+  max-width: 680px;
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+.home-hero .brand-icon {
+  margin-bottom: 20px;
+}
+
+.home-hero h1 {
+  font-size: 42px;
+  line-height: 1.2;
+  color: #23834d;
+  margin-bottom: 18px;
+}
+
+.home-hero > p {
+  color: #526258;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.home-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.home-button {
+  width: auto;
+  padding: 14px 28px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.home-secondary {
+  color: #23834d;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-secondary:hover {
+  text-decoration: underline;
+}
+
+.home-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.home-feature {
+  margin-bottom: 0;
+}
+
+.home-feature-icon {
+  color: #23834d;
+  margin-bottom: 12px;
+}
+
+.home-feature h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.home-feature p {
+  color: #526258;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 800px) {
+  .home-content {
+    padding: 48px 0 60px;
+  }
+
+  .home-hero {
+    margin-bottom: 40px;
+  }
+
+  .home-hero h1 {
+    font-size: 32px;
+  }
+
+  .home-features {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-header-actions {
+    gap: 8px;
+  }
+
+  .home-link {
+    padding: 9px 14px;
+    font-size: 14px;
+  }
+
+  .home-hero h1 {
+    font-size: 27px;
+  }
+}
